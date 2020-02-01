@@ -3,7 +3,18 @@ echo "Welcome to Snake and Ladder game ! Good Luck!"
 readonly playerPostion=0
 declare -A diceResult
 diceCount=0
+player=1
 
+checkPlayerTurn()
+{
+	if (( $player == 1 ))
+	then
+		player=2
+	elif (( $player == 2 ))
+	then
+		player=1
+	fi
+}
 rollDice() {
 	storeDice=$(($((RANDOM%6))+1))	
 	}
@@ -19,6 +30,7 @@ repeatTillWinningPosition(){
 			if (( $(($currentPosition+$storeDice)) == 100))
 			then 	
 				diceResult[$diceCount]=100
+				echo "Player $player wins the game!"
 				break
 			elif (( $(($currentPosition+$storeDice)) > 100))
 			then
@@ -26,6 +38,7 @@ repeatTillWinningPosition(){
 			else
 				checkOption	
 			fi	
+	checkPlayerTurn
 	done
 	}
 checkOption() {
