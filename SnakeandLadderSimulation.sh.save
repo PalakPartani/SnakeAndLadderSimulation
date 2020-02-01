@@ -1,0 +1,5 @@
+#!/bin/bash -x
+echo "Welcome to Snake and Ladder game ! Good Luck!"
+readonly playerPostion=0
+echo "Random Dice Value :  "$(($((RANDOM%6))+1))
+
