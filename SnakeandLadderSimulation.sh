@@ -7,10 +7,21 @@ rollDice() {
 }
 
 repeatTillWinningPosition(){ 
-	rollDice
+	
+	currentPosition=$playerPosition
 	while [[ $currentPosition -le 100 ]]
 	do
-		checkOption	
+		rollDice
+		if (( $(($currentPosition+$storeDice)) == 100))
+		then 	
+			currentPosition=100
+			break
+		elif (( $(($currentPosition+$storeDice)) > 100))
+		then
+			currentPosition=$currentPosition
+		else
+			checkOption	
+		fi	
 	done
 	}
 checkOption() {
