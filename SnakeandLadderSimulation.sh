@@ -1,6 +1,6 @@
-#!/bin/bash -x
+#!/bin/bash 
 echo "Welcome to Snake and Ladder game ! Good Luck!"
-readonly PLAYERPOSITION=0
+readonly PLAYER_POSITION=0
 declare -A diceResult
 diceCount=0
 player=1
@@ -26,26 +26,34 @@ rollDice()
 #Check untill it reaches the winning position 100
 repeatTillWinningPosition()
 { 	
-	currentPosition=$PLAYERPOSITION
-	while [[ $currentPosition -le 100 ]]
+	currentPosition=$PLAYER_POSITION
+	while [[ $currentPosition -ne 100 ]]
 	do
 		rollDice
-		currentPosition=${diceResult[$((diceCount-1))]}
 		((diceCount++))
+		currentPosition=${diceResult[$((diceCount-1))]}
+		checkExactWinningPosition
+		checkPlayerTurn
+	done
+	#checkPlayerTurn
+}
+
+checkExactWinningPosition()
+{
 #check until it reaches exact winning position 
 		if (( $(($currentPosition+$storeDice)) == 100))
 		then 	
 			diceResult[$diceCount]=100
 			echo "Player $player wins the game!"
-			break
+			#break
 		elif (( $(($currentPosition+$storeDice)) > 100))
 		then
 			diceResult[$diceCount]=$currentPosition
 		else
 		   checkOption	
 		fi	
-		checkPlayerTurn
-	done
+		
+	
 }
 #Check whether option is noplay,ladder or snakebite
 checkOption() 
@@ -59,10 +67,11 @@ checkOption()
 		diceResult[$diceCount]=$(($currentPosition + $storeDice))	
 		;;
 		3)
-		diceResult[$diceCount]=$(($currentPosition - $storeDice))
+		currentPosition=$(($currentPosition - $storeDice))
+		diceResult[$diceCount]=$currentPosition
 		if (($currentPosition < 0))
       	        then
-		      	currentPosition=$PLAYERPOSITION
+		      	currentPosition=$PLAYER_POSITION
 			diceResult[$diceCount]=$currentPosition
 	        fi
 		;;
